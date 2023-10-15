@@ -1,4 +1,4 @@
-import Title from '@/components/title'
+
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-700`}>
-        <Title/>
+
         {children}
       </body>
     </html>
