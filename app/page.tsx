@@ -48,7 +48,7 @@ export default function Home() {
   }
 
   //DELETE REQUEST
-  //Instead of using a const we are using an async fucntion
+  //This HTTP METHOD WORKS
   const deleteTodo = (id:number) => {
     fetch(`http://localhost:3100/todos/${id}`,{
       method:'DELETE'
