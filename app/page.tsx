@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import Form from './components/form'
+
 import {useState, useEffect} from 'react' //The Main Goal is to UseReact Hooks with Typescript
 
 //This is the version of the main code that will be pushed into the master branch
@@ -15,23 +15,55 @@ import {useState, useEffect} from 'react' //The Main Goal is to UseReact Hooks w
 export default function Home() {
 
   //UseState Hook filled with Dummy Data to help build the Todo Cards
-  const [todos,setTodo] = useState([
-    { id:1,task:"JSON 1"},
-    { id:2,task:"JSON 2"},
-    { id:3,task:"JSON 3"},
-    { id:4,task:"JSON 4"},
-    { id:5,task:"JSON 5"},
-  ])
+  const [todos,setTodo] = useState<any[]>([])
+  const [description,setDescription] = useState('')
+ 
+
+
+  //GET REQUEST
+  //This HHTP Method Works
+  useEffect(() => {
+    fetch("http://localhost:3100/todos")
+    .then(response => response.json())
+    .then(json => setTodo(json));
+  },[])
+
+  //POST REQUEST
+  //This HtTTP Method Works
+  const handleSubmit = (e:any) => {
+    const todo = {description}
+
+    fetch("http://localhost:3100/todos",{
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(todo)
+    }).then(() =>{
+      console.log("A NEW TODO HAS BEEN ADDED")
+    })
+  }
 
   return (
    <main>
       <h1 className="text-slate-200 text-center text-4xl mb-8">Chibuikem Nwauche</h1>
       <h2 className="text-slate-200 text-center text-3xl mb-6">Todo List Application</h2>
-      <Form/>
+      {/* Todo Form */}
+      <form className="mb-8" onSubmit={handleSubmit}>
+        <div>
+          <label className="block mb-2 text-lg font-medium text-slate-200 ">Todo Task</label>
+          <input value={description} className="bg-gray-50 border border-stone-600 text-gray-900 
+          rounded-lg focus:ring-blue-500 w-6/12 " placeholder="Enter Task Here" onChange={(e) =>setDescription(e.target.value)} required/>
+        </div>
+        
+        <button className="mt-2 text-center inline-flex items-center px-3 py-2 text-sm font-medium 
+          text-center text-white bg-blue-700 rounded-lg">Add New Task</button>
+      </form>
+      
+
+      {/* Todo List */}
       <div >
-          {todos.map(todo => (
+          {todos.map((todo) => (
             <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg mb-5 ">
-              <h5 className="text-2xl font-bold text-gray-900">{todo.task}</h5>
+              <h5 className="text-2xl font-bold text-gray-900">{todo.description} </h5>
               <a className="mt-2 inline-flex items-center px-3 py-2 text-center text-white 
               bg-red-500 rounded-lg rounded-lg hover:bg-red-900">Delete</a>
             </div>
