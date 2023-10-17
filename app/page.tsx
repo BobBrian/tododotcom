@@ -12,10 +12,15 @@ import {useState, useEffect} from 'react' //The Main Goal is to UseReact Hooks w
 //VERSION 1:USING DUMMY DATA
 //Dave Grey Video:https://www.youtube.com/watch?v=2NEV_M7NN6k
 
+interface Todo {
+  id:number,
+  description:string
+}
+
 export default function Home() {
 
   //UseState Hook filled with Dummy Data to help build the Todo Cards
-  const [todos,setTodo] = useState<any[]>([])
+  const [todos,setTodo] = useState<Todo[]>([])
   const [description,setDescription] = useState('')
  
 
@@ -42,6 +47,17 @@ export default function Home() {
     })
   }
 
+  //DELETE REQUEST
+  //This HTTP METHOD WORKS
+  const deleteTodo = (id:number) => {
+    fetch(`http://localhost:3100/todos/${id}`,{
+      method:'DELETE'
+    }).then(() => {
+      console.log('Todo Deleted')
+    })
+
+  }
+
   return (
    <main>
       <h1 className="text-slate-200 text-center text-4xl mb-8">Chibuikem Nwauche</h1>
@@ -62,10 +78,10 @@ export default function Home() {
       {/* Todo List */}
       <div >
           {todos.map((todo) => (
-            <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg mb-5 ">
+            <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg mb-5 " key={todo.id}>
               <h5 className="text-2xl font-bold text-gray-900">{todo.description} </h5>
               <a className="mt-2 inline-flex items-center px-3 py-2 text-center text-white 
-              bg-red-500 rounded-lg rounded-lg hover:bg-red-900">Delete</a>
+              bg-red-500 rounded-lg rounded-lg hover:bg-red-900" onClick={()=>{deleteTodo(todo.id)}}>Delete</a>
             </div>
           ))}
       </div>

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "serve": "json-server --watch lib/data.json --port 3100",
-    "startA": "concurrently \"next dev\" \"json-server --watch lib/data.json --port 3100\""
+    "double": "concurrently \"next dev\" \"json-server --watch lib/data.json --port 3100\""
     
   },
   "dependencies": {
